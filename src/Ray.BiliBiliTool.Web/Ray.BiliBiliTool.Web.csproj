@@ -16,6 +16,23 @@
     <PackageReference Include="Quartz.Serialization.SystemTextJson" Version="3.14.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.SQLite.Microsoft" Version="1.0.0" />
+    <PackageReference Include="Serilog" Version="4.2.0" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Ray.Serilog.Sinks.CoolPushBatched" Version="0.0.1" />
+    <PackageReference Include="Ray.Serilog.Sinks.DingTalkBatched" Version="0.0.1" />
+    <PackageReference Include="Ray.Serilog.Sinks.GotifyBatched" Version="0.0.1" />
+    <PackageReference Include="Ray.Serilog.Sinks.MicrosoftTeamsBatched" Version="0.0.1" />
+    <PackageReference Include="Ray.Serilog.Sinks.OtherApiBatched" Version="0.0.1" />
+    <PackageReference Include="Ray.Serilog.Sinks.PushPlusBatched" Version="0.0.1" />
+    <PackageReference Include="Ray.Serilog.Sinks.ServerChanBatched" Version="0.0.1" />
+    <PackageReference Include="Ray.Serilog.Sinks.TelegramBatched" Version="0.0.1" />
+    <PackageReference Include="Ray.Serilog.Sinks.WorkWeiXinAppBatched" Version="0.0.1" />
+    <PackageReference Include="Ray.Serilog.Sinks.WorkWeiXinBatched" Version="0.0.1" />
     <ProjectReference Include="..\BlazingQuartz.Core\BlazingQuartz.Core.csproj" />
     <ProjectReference Include="..\Ray.BiliBiliTool.Application\Ray.BiliBiliTool.Application.csproj" />
     <ProjectReference Include="..\Ray.BiliBiliTool.Infrastructure.EF\Ray.BiliBiliTool.Infrastructure.EF.csproj" />

@@ -12,3 +12,29 @@ services:
     environment:
       TZ: "Asia/Shanghai"
       DailyTaskConfig__Cron: "0 0 15 * * ?"
+      
+      # 推送功能配置（选择一种或多种）
+      # ====================================
+      
+      # PushPlus推送（推荐，最简单）
+      # 1. 访问 http://www.pushplus.plus/ 获取token
+      # 2. 取消下面两行的注释并填入您的token
+      # Ray_Serilog__WriteTo__9__Args__token: "your_pushplus_token"
+      # Ray_Serilog__WriteTo__9__Args__restrictedToMinimumLevel: "Information"
+      
+      # Telegram推送
+      # Ray_Serilog__WriteTo__3__Args__botToken: "your_bot_token"
+      # Ray_Serilog__WriteTo__3__Args__chatId: "your_chat_id"
+      # Ray_Serilog__WriteTo__3__Args__restrictedToMinimumLevel: "Information"
+      
+      # 企业微信机器人推送
+      # Ray_Serilog__WriteTo__4__Args__webHookUrl: "your_webhook_url"
+      # Ray_Serilog__WriteTo__4__Args__restrictedToMinimumLevel: "Information"
+      
+      # 钉钉机器人推送
+      # Ray_Serilog__WriteTo__5__Args__webHookUrl: "your_webhook_url"
+      # Ray_Serilog__WriteTo__5__Args__restrictedToMinimumLevel: "Information"
+      
+      # Server酱推送
+      # Ray_Serilog__WriteTo__6__Args__turboScKey: "your_sckey"
+      # Ray_Serilog__WriteTo__6__Args__restrictedToMinimumLevel: "Information"
