@@ -29,7 +29,7 @@ apt-get install curl
 ## 2. 方式一：一键脚本(推荐)
 
 ```
-bash <(curl -sSL https://raw.githubusercontent.com/RayWangQvQ/BiliBiliToolPro/main/docker/install.sh)
+bash <(curl -sSL https://raw.githubusercontent.com/trler/BiliBiliToolPro/main/docker/install.sh)
 ```
 
 ## 3. 方式二：手动 Docker Compose
@@ -41,10 +41,10 @@ bash <(curl -sSL https://raw.githubusercontent.com/RayWangQvQ/BiliBiliToolPro/ma
 mkdir bili_tool_web && cd bili_tool_web
 
 # 下载
-wget https://raw.githubusercontent.com/RayWangQvQ/BiliBiliToolPro/main/docker/sample/docker-compose.yml
+wget https://raw.githubusercontent.com/trler/BiliBiliToolPro/main/docker/sample/docker-compose.yml
 mkdir -p config
 cd ./config
-wget https://raw.githubusercontent.com/RayWangQvQ/BiliBiliToolPro/main/docker/sample/config/cookies.json
+wget https://raw.githubusercontent.com/trler/BiliBiliToolPro/main/docker/sample/config/cookies.json
 cd ..
 
 # 启动
@@ -92,13 +92,13 @@ docker compose pull && docker compose up -d
 mkdir bili_tool_web && cd bili_tool_web
 
 # 生成并运行容器
-docker pull ghcr.io/raywangqvq/bilibili_tool_web
+docker pull ghcr.io/trler/bili_tool_web
 docker run -d --name="bili_tool_web" \
     -p 22330:8080 \
     -e TZ=Asia/Shanghai \
     -v ./Logs:/app/Logs \
     -v ./config:/app/config \
-    ghcr.io/raywangqvq/bilibili_tool_web
+    ghcr.io/trler/bili_tool_web
 
 # 查看实时日志
 docker logs -f bili_tool_web
@@ -255,10 +255,10 @@ environment:
 
 ## 7. 自己构建镜像（非必须）
 
-目前我提供和维护的镜像：
+目前提供和维护的镜像：
 
-- DockerHub: `[zai7lou/bili_tool_web](https://hub.docker.com/repository/docker/zai7lou/bili_tool_web)`
-- GitHub: `[bili_tool_web](https://github.com/RayWangQvQ/BiliBiliToolPro/pkgs/container/bili_tool_web)`
+- GitHub Container Registry: `ghcr.io/trler/bili_tool_web`
+- DockerHub: `trler/bili_tool_web`
 
 如果有需要（大部分都不需要），可以使用源码自己构建镜像，如下：
 
@@ -267,6 +267,8 @@ environment:
 `docker build -t TARGET_NAME .`
 
 `TARGET_NAME`为镜像名称和版本，可以自己起个名字
+
+**自动构建：** 本项目已配置GitHub Actions，每次推送代码到main分支时会自动构建并发布新的镜像。
 
 ## 8. 其他
 
