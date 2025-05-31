@@ -1,40 +1,34 @@
-# 备用Dockerfile - 如果主Dockerfile仍有问题可以尝试这个版本
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+# 备用Dockerfile - 直接restore单个项目避免测试项目缺失问题
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
-EXPOSE 8080
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
-
-# 设置环境变量以提高构建性能和稳定性
+# 设置环境变量
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 ENV DOTNET_NOLOGO=1
-ENV NUGET_XMLDOC_MODE=skip
 
-# 复制整个源代码（简化方法）
-COPY . .
+# 复制所有文件
+COPY . ./
 
 # 清理NuGet缓存
 RUN dotnet nuget locals all --clear
 
-# 直接在解决方案级别进行restore
-RUN dotnet restore Ray.BiliBiliTool.sln --verbosity normal
+# 直接restore单个Web项目，避免解决方案中缺失的测试项目
+RUN dotnet restore src/Ray.BiliBiliTool.Web/Ray.BiliBiliTool.Web.csproj --verbosity normal
 
-# 构建项目
-RUN dotnet build "src/Ray.BiliBiliTool.Web/Ray.BiliBiliTool.Web.csproj" -c Release --no-restore
+# 直接发布项目
+RUN dotnet publish src/Ray.BiliBiliTool.Web/Ray.BiliBiliTool.Web.csproj \
+    -c Release \
+    -o out \
+    --no-restore
 
-# 发布项目
-RUN dotnet publish "src/Ray.BiliBiliTool.Web/Ray.BiliBiliTool.Web.csproj" -c Release -o /app/publish --no-restore --no-build
-
-FROM base AS final
+# 运行时镜像
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /app/publish .
+COPY --from=build-env /app/out .
 
-# 安装必要的系统依赖
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends ca-certificates && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# 安装必要的依赖
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
 
+EXPOSE 8080
 ENTRYPOINT ["dotnet", "Ray.BiliBiliTool.Web.dll"] 
