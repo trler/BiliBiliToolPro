@@ -15,6 +15,7 @@ on:
     paths:
       - 'src/**'
       - 'Dockerfile'
+      - 'Dockerfile.alternative'
       - '.github/workflows/publish-image.yml'
 
 permissions:
@@ -90,6 +91,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ./Dockerfile.alternative
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
