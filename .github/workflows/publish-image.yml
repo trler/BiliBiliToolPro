@@ -17,6 +17,10 @@ on:
       - 'Dockerfile'
       - '.github/workflows/publish-image.yml'
 
+permissions:
+  contents: read
+  packages: write
+
 env:
   DOCKERHUB_USERNAME : ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_PASSWORD : ${{ secrets.DOCKERHUB_PASSWORD }}
