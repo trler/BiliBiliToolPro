@@ -1,0 +1,40 @@
+# 备用Dockerfile - 如果主Dockerfile仍有问题可以尝试这个版本
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 8080
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# 设置环境变量以提高构建性能和稳定性
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
+ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+ENV DOTNET_NOLOGO=1
+ENV NUGET_XMLDOC_MODE=skip
+
+# 复制整个源代码（简化方法）
+COPY . .
+
+# 清理NuGet缓存
+RUN dotnet nuget locals all --clear
+
+# 直接在解决方案级别进行restore
+RUN dotnet restore Ray.BiliBiliTool.sln --verbosity normal
+
+# 构建项目
+RUN dotnet build "src/Ray.BiliBiliTool.Web/Ray.BiliBiliTool.Web.csproj" -c Release --no-restore
+
+# 发布项目
+RUN dotnet publish "src/Ray.BiliBiliTool.Web/Ray.BiliBiliTool.Web.csproj" -c Release -o /app/publish --no-restore --no-build
+
+FROM base AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+
+# 安装必要的系统依赖
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+ENTRYPOINT ["dotnet", "Ray.BiliBiliTool.Web.dll"] 
